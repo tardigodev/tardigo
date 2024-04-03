@@ -21,13 +21,15 @@ func DetectPlugins() []constants.PluginType {
 
 	addIfExist(constants.PluginTypeSourceParser)
 	addIfExist(constants.PluginTypeTargetParser)
+	addIfExist(constants.PluginTypeSourceReader)
+	addIfExist(constants.PluginTypeTargetWriter)
 
 	return detectedPlugins
 }
 
 func BuildPlugin(pluginFile string, pluginBuildPath string) error {
 	log.Printf("building plugin : %s to %s", pluginFile, pluginBuildPath)
-	_, err := runCommand("go", "build", "-buildmode=plugin", "-o", pluginBuildPath, pluginFile)
+	_, err := runCommand("go", "build", "-trimpath", "-buildmode=plugin", "-o", pluginBuildPath, pluginFile)
 	if err != nil {
 		return fmt.Errorf("failed to build plugin %s to %s: %w", pluginFile, pluginBuildPath, err)
 	}

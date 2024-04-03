@@ -70,6 +70,10 @@ func GenerateTemplate(pluginType constants.PluginType) {
 		generateGoFile(templates.SOURCE_PARSER_TEMPLATE)
 	case constants.PluginTypeTargetParser:
 		generateGoFile(templates.TARGET_PARSER_TEMPLATE)
+	case constants.PluginTypeSourceReader:
+		generateGoFile(templates.SOURCE_READER_TEMPLATE)
+	case constants.PluginTypeTargetWriter:
+		generateGoFile(templates.TARGET_WRITER_TEMPLATE)
 	default:
 		log.Fatalf("unknown plugin type %s", pluginType)
 	}

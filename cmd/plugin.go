@@ -11,8 +11,8 @@ import (
 )
 
 var SUPPORTED_PLUGINS = []constants.PluginType{
-	constants.PluginTypeSourceStorage,
-	constants.PluginTypeTargetStorage,
+	constants.PluginTypeSourceReader,
+	constants.PluginTypeTargetWriter,
 	constants.PluginTypeSourceParser,
 	constants.PluginTypeTargetParser,
 	constants.PluginTypeProcessor,

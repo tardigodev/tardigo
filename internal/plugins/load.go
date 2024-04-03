@@ -22,8 +22,55 @@ func LoadGenericPlugin(pluginType constants.PluginType, pluginPath string) (pkg.
 			return nil, err
 		}
 		return pluginSymbol, nil
+	case constants.PluginTypeSourceReader:
+		pluginSymbol, err := LoadSourceReaderPlugin(pluginPath)
+		if err != nil {
+			return nil, err
+		}
+		return pluginSymbol, nil
+	case constants.PluginTypeTargetWriter:
+		pluginSymbol, err := LoadTargetWriterPlugin(pluginPath)
+		if err != nil {
+			return nil, err
+		}
+		return pluginSymbol, nil
 	}
+
 	return nil, fmt.Errorf("failed to load plugin from path %s of type %s", pluginPath, pluginType)
+}
+
+func LoadSourceReaderPlugin(pluginPath string) (pkg.SourceReaderPlugin, error) {
+	plugin, err := loadPlugin(pluginPath)
+	if err != nil {
+		return nil, err
+	}
+
+	pluginSymbol, err := plugin.Lookup("SourceReaderPlugin")
+	if err != nil {
+		return nil, err
+	}
+
+	if sourceReaderPlugin, ok := pluginSymbol.(pkg.SourceReaderPlugin); ok {
+		return sourceReaderPlugin, nil
+	}
+	return nil, fmt.Errorf("failed to load plugin")
+}
+
+func LoadTargetWriterPlugin(pluginPath string) (pkg.TargetWriterPlugin, error) {
+	plugin, err := loadPlugin(pluginPath)
+	if err != nil {
+		return nil, err
+	}
+
+	pluginSymbol, err := plugin.Lookup("TargetWriterPlugin")
+	if err != nil {
+		return nil, err
+	}
+
+	if targetWriterPlugin, ok := pluginSymbol.(pkg.TargetWriterPlugin); ok {
+		return targetWriterPlugin, nil
+	}
+	return nil, fmt.Errorf("failed to load plugin")
 }
 
 func LoadSourceParserPlugin(pluginPath string) (pkg.SourceParserPlugin, error) {
